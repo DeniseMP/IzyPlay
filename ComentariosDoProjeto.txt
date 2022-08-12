@@ -1,0 +1,37 @@
+Recebi a solicitação do projeto por volta das 14:30 do dia 10/08.
+As primeiras horas da tarde deste dia foram gastas entre ler o solicitado, atualizar o programa para a versão pretendida e montar um schedule para o desenvolvimento do projeto.
+Ficou definido da seguinte maneira:
+
+*Final da tarde de quarta-feira:
+Fazer a câmera seguir a faca [ok]
+Desenvolvimento do "pulo" da faca com o clique do mouse ou toque na tela.[ok]
+
+
+*Madrugada de quarta para quinta-feira:
+desenvolver a colisão da faca com os objetos na cena[ok]
+Pesquisar e começar a desenvolver  o mesh slicing dos objetos, deixando a mecânica pronta [ok]
+
+*quinta-feira de tarde:
+Adicionar pontuação e tela de reiniciar jogo quando a faca tocar no chão [ok]
+
+*sexta-feira de tarde:
+Adicionar texturas, partículas e demais efeitos para "enfeitar" a cena. [ok]
+
+
+
+>> Fiz facilmente a câmera seguir a faca colocando a câmera como objeto "filho" da faca.
+Isto foi modificado, pois gerava um bug quando foi implementado o giro na faca. Na versão final isto é feito através de um pequeno script chamado CameraSeguir que transforma a position da câmera com um SmoothDamp.
+>> Desenvolvi o lançamento da faca com um código bem simples. Nele a posição do clique do mouse sobre a espada é guardada num Vector3 chamado  PosicaoMouse, depois ao largar o mouse sobre o lugar para onde você quer que sua faca seja lançada, guardamos também esta posição em um Vector3 chamado PosicaoSoltaMouse. 
+Estes valores serão parte do cálculo para a força a ser adicionada ao RigidBody do objeto faca através de uma função Atirar(Vector3 Force). 
+Isto está no script AtiraFaca; onde também se encontra o código para fazer a faca girar ao redor de si mesma quando for atirada, adicionando um Torque ao RigidBody do GameObject faca.
+No mesmo arquivo ainda temos o imput para versão Android onde é conferido se houve um toque na tela com Input.touchCount. A Seguir usamos o TouchPhase.Moved para descobrir se o dedo que tocou a tela deslisou por ela e, finalmente usamos o deltaPosition deste toque para calcular a foça a ser adicionada à faca. 
+>>A colisão da faca com os objetos é bem simples, identificando a tag do objeto através de seu trigger e está no script dos objetos
+Na colisão o efeito de corte é feito através de Prefabs instanciados. O objeto inteiro original é destruído e um prefab com duas metades é instanciado em seu lugar. 
+>> O aumento da pontuação está programado dentro do AtirarFaca e é bem simples, identificando o objeto que foi colidido através de sua tag, no caso Cubo, ali a pontuação recebe +1 e é reescrita na tela.
+Os multiplicadores de pontuação dos objetivos finais são programados da mesma forma no mesmo arquivo. 
+>> Para criar a tela de reiniciar o jogo, criei uma UI Canvas com vários objetos filhos, como o fundo da tela, texto, botão, etc. 
+O funcionamento deste processo está entre dois arquivos de Script: Atirar Faca, onde a colisão da faca com o chão é identificada através de um trigger no chão, que possui a tag Solo. Neste evento é chamada a função AtivaMenuGameOver(); que torna a Canvas visível. No evento também existe uma booleana de controle para desativar o funcionamento do inputs e parar o jogo durante a tela de game over.
+O outro arquivo de script envolvido é o Reload, onde consta apenas um comando para que o SceneManager recarregue a cena. Este arquivo é carregado no OnClick() do Object Button e faz o botão funcionar. 
+>> Por fim, foi adicionada uma música de fundo através de um AudioSource, e também um som para a faca voando pelo ar, este último programado no seu respectivo arquivo de script AtirarFaca.
+>> Tudo ficou pronto antes das 9h da manhã de sexta-feira (o limite é até a meia noite). Estou apenas trabalhando no upload de todo o projeto agora.
+
